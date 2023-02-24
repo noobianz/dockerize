@@ -36,6 +36,7 @@ release: dist
 	tar -cvzf dockerize-linux-386-$(TAG).tar.gz -C dist/linux/386 dockerize
 	tar -cvzf dockerize-linux-armel-$(TAG).tar.gz -C dist/linux/armel dockerize
 	tar -cvzf dockerize-linux-armhf-$(TAG).tar.gz -C dist/linux/armhf dockerize
+	tar -cvzf dockerize-linux-arm64-$(TAG).tar.gz -C dist/linux/arm64 dockerize
 	tar -cvzf dockerize-linux-ppc64le-$(TAG).tar.gz -C dist/linux/ppc64le dockerize
 	tar -cvzf dockerize-darwin-amd64-$(TAG).tar.gz -C dist/darwin/amd64 dockerize
 	tar -cvzf dockerize-darwin-arm64-$(TAG).tar.gz -C dist/darwin/arm64 dockerize
