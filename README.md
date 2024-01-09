@@ -1,4 +1,4 @@
-dockerize ![version v0.6.1](https://img.shields.io/badge/version-v0.6.1-brightgreen.svg) ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+dockerize ![version v0.7.0](https://img.shields.io/badge/version-v0.7.0-brightgreen.svg) ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 =============
 
 Utility to simplify running applications in docker containers.
@@ -28,14 +28,14 @@ See [A Simple Way To Dockerize Applications](http://jasonwilder.com/blog/2014/10
 
 Download the latest version in your container:
 
-* [linux/amd64](https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz)
-* [alpine/amd64](https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-alpine-linux-amd64-v0.6.1.tar.gz)
-* [darwin/amd64](https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-darwin-amd64-v0.6.1.tar.gz)
+* [linux/amd64](https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-linux-amd64-v0.7.0.tar.gz)
+* [alpine/amd64](https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-alpine-linux-amd64-v0.7.0.tar.gz)
+* [darwin/amd64](https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-darwin-amd64-v0.7.0.tar.gz)
 
 
 ### Docker Base Image
 
-The `jwilder/dockerize` image is a base image based on `alpine linux`.  `dockerize` is installed in the `$PATH` and can be used directly.
+The `jwilder/dockerize` image is a base image based on `gcr.io/distroless/static`.  `dockerize` is installed in the `$PATH` and can be used directly.
 
 ```
 FROM jwilder/dockerize
@@ -46,24 +46,24 @@ ENTRYPOINT dockerize ...
 ### Ubuntu Images
 
 ``` Dockerfile
-RUN apt-get update && apt-get install -y wget
+ENV DOCKERIZE_VERSION v0.7.0
 
-ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN apt-get update \
+    && apt-get install -y wget \
+    && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
 ```
 
 
 ### For Alpine Images:
 
 ``` Dockerfile
-RUN apk add --no-cache openssl
+ENV DOCKERIZE_VERSION v0.7.0
 
-ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN apk update --no-cache \
+    && apk add --no-cache wget openssl \
+    && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+    && apk del wget
 ```
 
 ## Usage
